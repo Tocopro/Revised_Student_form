@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+<div class="section1">
+    Student Information
+    <form onsubmit="return false">
+        <h1>
+            <p class="section4"> Registration</p>
+            <label class="section2" for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName" autocomplete="off"><br>
+            <label class="section2" for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName" autocomplete="off"><br>
+            <input type="button" value="SAVE" onclick="registration()">
+            <p id="information"></p>
+            <p><br/></p>
+            <label class="section2" for="displayArea">Student Information</label><textarea id="displayArea" cols="30" rows="10"></textarea>
+            <input id="loading" type="file" value="loading" onchange="load_function()">
+
+
+        </h1>
+    </form>
+</div>
+</body>
+<script>
+    function registration()
+    {
+        let f_name = document.getElementById("firstName").value;
+        let l_name = document.getElementById("lastName").value;
+        let data = [];
+        data.push(f_name);
+        data.push(l_name)
+        let data_string = JSON.stringify(data);
+        let file = new Blob([data_string],{type:"text"});
+        let anchor = document.createElement("a");
+        anchor.href = URL.createObjectURL(file);
+        anchor.download = "Registration.txt";
+        anchor.click();
+
+    }
+    function load_function()
+    {
+        let file_1 = document.getElementById("loading").files[0];
+        let reading = new FileReader();
+        reading.onloadend = function ()
+        {
+            document.getElementById("displayArea").value = JSON.stringify(reading.result)[0];
+        };
+        reading.readAsText(file_1);
+    }
+
+
+</script>
+</html>
+
+CSS
+
+
+body {
+    text-align: center;
+}
+
+.section1 {
+    font-weight: bold;
+    font-size: x-large;
+}
+
+.section2 {
+    font-weight: bold;
+    font-size: large;
+}
+
+.section4 {
+    font-size: x-large;
+}
